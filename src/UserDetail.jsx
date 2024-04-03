@@ -36,7 +36,7 @@ function UserDetail() {
       />
 
       <div className="flex flex-row justify-center items-center h-screen p-10">
-        <div className="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden flex p-5">
+        <div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden flex p-5">
           <div className="p-4">
             <img
               src={user.image}
@@ -49,26 +49,28 @@ function UserDetail() {
               {user.firstName} {user.lastName} {user.maidenName}
             </div>
 
-            <p className="text-gray-700 text-base">Email:</p>
-            <p className="text-gray-700 text-base pb-3">{user.email}</p>
-
-            <p className="text-gray-700 text-base">Phone:</p>
-            <p className="text-gray-700 text-base pb-3">{user.phone}</p>
-
-            <p className="text-gray-700 text-base">Username:</p>
-            <p className="text-gray-700 text-base pb-3">{user.username}</p>
-
-            <p className="text-gray-700 text-base">Birthdate:</p>
-            <p className="text-gray-700 text-base pb-3">{user.birthDate}</p>
-
-            <p className="text-gray-700 text-base">Blood type:</p>
-            <p className="text-gray-700 text-base pb-3">{user.bloodGroup}</p>
-
-            <p className="text-gray-700 text-base">Height:</p>
-            <p className="text-gray-700 text-base pb-3">{user.height}</p>
-
-            <p className="text-gray-700 text-base">Weight:</p>
-            <p className="text-gray-700 text-base pb-3">{user.weight}</p>
+            <div className="flex flex-row">
+              <div className="flex flex-col">
+                <p className="text-gray-700 text-base">Email:</p>
+                <p className="text-gray-700 text-base pb-3">{user.email}</p>
+                <p className="text-gray-700 text-base ">Phone:</p>
+                <p className="text-gray-700 text-base pb-3">{user.phone}</p>
+                <p className="text-gray-700 text-base">Username:</p>
+                <p className="text-gray-700 text-base pb-3">{user.username}</p>
+                <p className="text-gray-700 text-base">Birthdate:</p>
+                <p className="text-gray-700 text-base pb-3">{user.birthDate}</p>
+              </div>
+              <div className="flex flex-col ml-4">
+                <p className="text-gray-700 text-base">Blood type:</p>
+                <p className="text-gray-700 text-base pb-3">
+                  {user.bloodGroup}
+                </p>
+                <p className="text-gray-700 text-base">Height: </p>
+                <p className="text-gray-700 text-base pb-3">{user.height}</p>
+                <p className="text-gray-700 text-base">Weight: </p>
+                <p className="text-gray-700 text-base pb-3">{user.weight}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
