@@ -10,7 +10,12 @@ import PopularPage from "./PopularPage";
 import TopRatedPage from "./TopRatedPage";
 import LoginForm from "./Login";
 import ResponsePage from "./ResponsePage";
+import UserDetail from "./UserDetail";
+import Users from "./Users";
 import "./App.css";
+import PostsUser from "./Posts";
+import Quotes from "./Quotes";
+import RandomQuotes from "./RandomQuotes"
 
 export default function App() {
   const router = createBrowserRouter([
@@ -20,7 +25,7 @@ export default function App() {
     },
     {
       path: "/top-rated",
-      element: <TopRatedPage />,
+      element: <PostsUser />,
     },
     {
       path: "/search-results",
@@ -35,8 +40,12 @@ export default function App() {
       element: <NowPlayingPage />,
     },
     {
-      path: "/popular",
-      element: <PopularPage />,
+      path: "/quotes",
+      element: <Quotes />,
+    },
+    {
+      path: "/random",
+      element: <RandomQuotes />,
     },
     {
       path: "/login",
@@ -46,7 +55,17 @@ export default function App() {
       path: "/response",
       element: <ResponsePage />,
     },
+    {
+      path: "/users",
+      element: <Users />,
+    },
+    {
+      path: "/users/:id", // Define a dynamic segment for the user ID
+      element: <UserDetail />, // Render the UserDetail component
+    },
   ]);
+  //         <div className="relative pt-24 px-24 left-0  bg-black bg-opacity-0  text-white gap-5"></div>
+
 
   return <RouterProvider router={router} />;
 }

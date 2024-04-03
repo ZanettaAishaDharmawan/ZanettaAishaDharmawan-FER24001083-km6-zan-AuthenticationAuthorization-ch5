@@ -76,9 +76,14 @@ function Navbar({ searchTerm, setSearchTerm, user }) {
             </div>
           </div>
           <div className="flex gap-4">
-            <a href="/popular">
+            <a href="/quotes">
               <p className="text-sm font-normal text-white cursor-pointer hover:text-primary hover:font-semibold">
-                Popular
+                Quotes
+              </p>
+            </a>
+            <a href="/random">
+              <p className="text-sm font-normal text-white cursor-pointer hover:text-primary hover:font-semibold">
+                Random Quotes
               </p>
             </a>
             <a href="/now-playing">
@@ -88,7 +93,7 @@ function Navbar({ searchTerm, setSearchTerm, user }) {
             </a>
             <a href="/top-rated">
               <p className="text-sm font-normal text-white cursor-pointer hover:text-primary hover:font-semibold">
-                Top Rated
+                Posts
               </p>
             </a>
             <div className="relative">
@@ -103,14 +108,18 @@ function Navbar({ searchTerm, setSearchTerm, user }) {
               {dropdownVisible && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                   <a
-                    href="/profileuser"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Profile
                   </a>
+                  <a
+                    href="/users"
+                    className="block px-4 py-2 text-sm text-gray-700 rounded-md  hover:bg-gray-100"
+                  >
+                    Users
+                  </a>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block w-full text-left px-4 py-2 text-sm  rounded-md  text-gray-700 hover:bg-gray-100"
                   >
                     Logout
                   </button>
