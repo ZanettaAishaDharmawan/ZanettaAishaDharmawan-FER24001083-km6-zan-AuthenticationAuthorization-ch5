@@ -97,13 +97,13 @@ function Navbar({ searchTerm, setSearchTerm, user }) {
                 className="text-white cursor-pointer hover:text-primary"
               >
                 <p className="text-sm font-normal text-white cursor-pointer hover:text-primary hover:font-semibold">
-                Hello, {user && user.firstName}              </p>
-                
+                  Hello, {user && user.firstName}{" "}
+                </p>
               </a>
               {dropdownVisible && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                   <a
-                    href="/profile"
+                    href="/profileuser"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Profile
