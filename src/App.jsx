@@ -10,8 +10,8 @@ import PopularPage from "./PopularPage";
 import TopRatedPage from "./TopRatedPage";
 import LoginForm from "./Login";
 import ResponsePage from "./ResponsePage";
-import PostsUser from "./Posts";
 import "./App.css";
+import PostsUser from "./Posts";
 
 export default function App() {
   const router = createBrowserRouter([
