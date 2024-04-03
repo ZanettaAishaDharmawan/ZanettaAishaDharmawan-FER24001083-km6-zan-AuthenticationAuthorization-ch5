@@ -21,8 +21,8 @@ export default function App() {
     },
     {
       path: "/top-rated",
-      // element: <TopRatedPage />,
-      element: <PostsUser />,
+      element: <TopRatedPage />,
+
     },
     {
       path: "/search-results",
