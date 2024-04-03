@@ -13,6 +13,7 @@ import ResponsePage from "./ResponsePage";
 import UserDetail from "./UserDetail";
 import Users from "./Users";
 import "./App.css";
+import PostsUser from "./Posts";
 
 export default function App() {
   const router = createBrowserRouter([
