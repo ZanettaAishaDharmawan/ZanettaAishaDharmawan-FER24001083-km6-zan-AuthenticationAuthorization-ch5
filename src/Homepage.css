@@ -1,0 +1,28 @@
+/* Homepage.css */
+
+/* Navbar transition */
+.navbar-transition {
+  transition: background-color 0.3s ease;
+}
+
+/* Ensure scrolling is still possible */
+.section-scroll-container {
+  overflow-x: auto;
+  /* Allow horizontal overflow */
+  overflow-y: hidden;
+  white-space: nowrap;
+  /* Prevent line breaks */
+}
+
+/* Adjust the width of the scrolling wrapper to ensure it exceeds the parent container's width */
+.scrolling-wrapper-flexbox {
+  display: flex;
+  white-space: nowrap;
+  /* Prevent line breaks */
+  width: max-content;
+  /* Adjust width to fit content */
+}
+
+.section-scroll-container::-webkit-scrollbar {
+  display: none;
+}
