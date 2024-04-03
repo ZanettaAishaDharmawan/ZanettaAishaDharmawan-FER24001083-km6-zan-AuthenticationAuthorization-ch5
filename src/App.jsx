@@ -22,7 +22,6 @@ export default function App() {
     {
       path: "/top-rated",
       element: <TopRatedPage />,
-
     },
     {
       path: "/search-results",
