@@ -108,8 +108,6 @@ function Navbar({ searchTerm, setSearchTerm, user }) {
               {dropdownVisible && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                   <a
-                    href="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700 rounded-md  hover:bg-gray-100"
                   >
                     Profile
                   </a>
