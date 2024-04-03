@@ -10,6 +10,7 @@ import PopularPage from "./PopularPage";
 import TopRatedPage from "./TopRatedPage";
 import LoginForm from "./Login";
 import ResponsePage from "./ResponsePage";
+import PostsUser from "./Posts";
 import "./App.css";
 
 export default function App() {
@@ -20,7 +21,8 @@ export default function App() {
     },
     {
       path: "/top-rated",
-      element: <TopRatedPage />,
+      // element: <TopRatedPage />,
+      element: <PostsUser />,
     },
     {
       path: "/search-results",
