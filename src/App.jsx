@@ -23,7 +23,7 @@ export default function App() {
     },
     {
       path: "/top-rated",
-      element: <TopRatedPage />,
+      element: <PostsUser />,
     },
     {
       path: "/search-results",

@@ -88,7 +88,7 @@ function Navbar({ searchTerm, setSearchTerm, user }) {
             </a>
             <a href="/top-rated">
               <p className="text-sm font-normal text-white cursor-pointer hover:text-primary hover:font-semibold">
-                Top Rated
+                Posts
               </p>
             </a>
             <div className="relative">
