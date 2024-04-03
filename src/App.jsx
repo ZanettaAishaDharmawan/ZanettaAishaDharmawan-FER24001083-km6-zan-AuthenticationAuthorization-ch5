@@ -14,6 +14,8 @@ import UserDetail from "./UserDetail";
 import Users from "./Users";
 import "./App.css";
 import PostsUser from "./Posts";
+import Quotes from "./Quotes";
+import RandomQuotes from "./RandomQuotes"
 
 export default function App() {
   const router = createBrowserRouter([
@@ -38,8 +40,12 @@ export default function App() {
       element: <NowPlayingPage />,
     },
     {
-      path: "/popular",
-      element: <PopularPage />,
+      path: "/quotes",
+      element: <Quotes />,
+    },
+    {
+      path: "/random",
+      element: <RandomQuotes />,
     },
     {
       path: "/login",

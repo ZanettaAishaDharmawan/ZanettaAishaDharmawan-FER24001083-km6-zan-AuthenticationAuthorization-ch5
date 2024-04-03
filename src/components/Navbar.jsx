@@ -76,9 +76,14 @@ function Navbar({ searchTerm, setSearchTerm, user }) {
             </div>
           </div>
           <div className="flex gap-4">
-            <a href="/popular">
+            <a href="/quotes">
               <p className="text-sm font-normal text-white cursor-pointer hover:text-primary hover:font-semibold">
-                Popular
+                Quotes
+              </p>
+            </a>
+            <a href="/random">
+              <p className="text-sm font-normal text-white cursor-pointer hover:text-primary hover:font-semibold">
+                Random Quotes
               </p>
             </a>
             <a href="/now-playing">
