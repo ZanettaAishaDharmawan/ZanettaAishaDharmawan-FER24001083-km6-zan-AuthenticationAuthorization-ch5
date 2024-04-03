@@ -97,20 +97,26 @@ function Navbar({ searchTerm, setSearchTerm, user }) {
                 className="text-white cursor-pointer hover:text-primary"
               >
                 <p className="text-sm font-normal text-white cursor-pointer hover:text-primary hover:font-semibold">
-                Hello, {user && user.firstName}              </p>
-                
+                  Hello, {user && user.firstName}{" "}
+                </p>
               </a>
               {dropdownVisible && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                   <a
                     href="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block px-4 py-2 text-sm text-gray-700 rounded-md  hover:bg-gray-100"
                   >
                     Profile
                   </a>
+                  <a
+                    href="/users"
+                    className="block px-4 py-2 text-sm text-gray-700 rounded-md  hover:bg-gray-100"
+                  >
+                    Users
+                  </a>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block w-full text-left px-4 py-2 text-sm  rounded-md  text-gray-700 hover:bg-gray-100"
                   >
                     Logout
                   </button>

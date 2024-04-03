@@ -10,6 +10,8 @@ import PopularPage from "./PopularPage";
 import TopRatedPage from "./TopRatedPage";
 import LoginForm from "./Login";
 import ResponsePage from "./ResponsePage";
+import UserDetail from "./UserDetail";
+import Users from "./Users";
 import "./App.css";
 
 export default function App() {
@@ -46,7 +48,17 @@ export default function App() {
       path: "/response",
       element: <ResponsePage />,
     },
+    {
+      path: "/users",
+      element: <Users />,
+    },
+    {
+      path: "/users/:id", // Define a dynamic segment for the user ID
+      element: <UserDetail />, // Render the UserDetail component
+    },
   ]);
+  //         <div className="relative pt-24 px-24 left-0  bg-black bg-opacity-0  text-white gap-5"></div>
+
 
   return <RouterProvider router={router} />;
 }
