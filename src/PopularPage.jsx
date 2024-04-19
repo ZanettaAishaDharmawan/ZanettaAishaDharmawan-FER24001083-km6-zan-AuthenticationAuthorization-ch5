@@ -9,6 +9,10 @@ function PopularPage() {
   const API_KEY = "de1e0b98496c6434dd3e14f9554f5287";
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [userData, setUserData] = useState(null);
+  const searchTermFromURL = new URLSearchParams(location.search).get("query");
+  const [searchTerm, setSearchTerm] = useState(searchTermFromURL || "");
+  const [popularHoveredMovieId, setPopularHoveredMovieId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -33,10 +37,44 @@ function PopularPage() {
     setCurrentPage(page);
   };
 
+  useEffect(() => {
+    // Check if user is authenticated, if not, redirect to login page
+    if (!localStorage.getItem("token")) {
+      navigate("/register");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "https://shy-cloud-3319.fly.dev/api/v1/auth/me",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const userData = response.data;
+        console.log("User profle: ", userData);
+        setUserData(userData);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+        } else {
+        }
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className="items-center justify-center self-center">
       {/* navbar */}
-      <Navbar />
+      <Navbar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            user={userData}
+          />
 
       {/* section results */}
       <div className="section bg-[#0E1118] pl-12 pt-12">
@@ -55,8 +93,40 @@ function PopularPage() {
                 onClick={() => {
                   navigate("/movie-details", { state: { id: movie.id } });
                 }}
-                className="relative max-w-xs bg-slate-900 rounded-lg shadow hover:bg-gray-800 transition duration-300 hover:filter hover:scale-105 cursor-pointer mr-4 mb-4"
-              >
+                className="relative max-w-xs bg-slate-900 rounded-lg shadow hover:bg-gray-800 transition duration-300 hover:filter hover:scale-105 cursor-pointer mr-4"
+                onMouseEnter={() => setPopularHoveredMovieId(movie.id)}
+                onMouseLeave={() => setPopularHoveredMovieId(null)}              >
+                {popularHoveredMovieId === movie.id && (
+                          <div className="absolute bottom-0 left-0 right-0 flex items-end justify-start bg-gradient-to-t from-red-600 to-transparent text-white p-5 h-[320px] w-auto text-wrap rounded-md flex-start ">
+                            <div className="flex flex-col">
+                              <h3 className="text-[20px] font-bold pb-2">
+                                {movie.title}
+                              </h3>
+                              <div className="flex flex-row items-center gap-2 text-[14px]">
+                                <div>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="white"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-5 h-5"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+                                    />
+                                  </svg>
+                                </div>
+                                <div className="pt-1">
+                                  {movie?.vote_average?.toFixed(1)} / 10 |{" "}
+                                  {movie.release_date}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                 {/* Display movie poster */}
                 {movie.poster_path ? (
                   <img

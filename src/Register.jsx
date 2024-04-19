@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import RegisterImage from "./assets/Register.svg";
 import GoogleLogin from "./GoogleLogin";
-import LoginImage from "./assets/Login.png";
 import { Link } from "react-router-dom";
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -14,7 +15,7 @@ export default function Login() {
   useEffect(() => {
     console.log("localStorage ", localStorage.getItem("token"));
     if (localStorage.getItem("token") !== null) {
-      alert("You have already login");
+      alert("You have already register");
       navigate("/");
     }
   }, []);
@@ -22,28 +23,29 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response_login = await fetch(
-      "https://shy-cloud-3319.fly.dev/api/v1/auth/login",
+    const response_Register = await fetch(
+      "https://shy-cloud-3319.fly.dev/api/v1/auth/register",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          password: password,
           email: email,
+          name: name,
+          password: password,
         }),
       }
     );
-    const json_login = await response_login.json();
+    const json_Register = await response_Register.json();
 
-    if (response_login.ok) {
-      const token = json_login.data.token;
-      alert("Successfully login!");
-      localStorage.setItem("login", "login");
-      localStorage.setItem("token", token);
-      navigate("/", { state: { token: token } });
+    if (response_Register.ok) {
+      const token = json_Register.data.token;
+      alert("Successfully registered!")
+      localStorage.setItem("Register", "Register");
+      console.log("Berhasil Register, ini tokennya: ", token);
+      navigate("/login", { state: { token: token } });
     } else {
-      setError(json_login?.message || "Login failed");
-      console.log("Login failed:", json_login);
+      setError(json_Register?.message || "Register failed");
+      console.log("Register failed:", json_Register);
     }
   };
 
@@ -53,7 +55,7 @@ export default function Login() {
         <div className="container w-[90vh] bg-[#e73939] h-screen flex justify-center items-center">
           <div className="text-center">
             <img
-              src={LoginImage}
+              src={RegisterImage}
               alt="Hero"
               className="px-8 py-4 md:px-32 md:py-10 mx-auto"
             />
@@ -68,17 +70,26 @@ export default function Login() {
       </div>
       <div className="container flex flex-col justify-center items-center h-screen self-center">
         <div>
-          <h1 className="text-5xl font-bold mb-4 text-black">Welcome Back</h1>
+          <h1 className="text-5xl font-bold mb-4 text-black">Register</h1>
         </div>
         <div>
           <form onSubmit={handleSubmit} className="flex flex-col">
+            <label className="pb-3 pt-4">Name: </label>
+            <input
+              placeholder="name"
+              value={name}
+              className="container w-[500px] h-[50px] bg-slate-100 rounded-md p-4"
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
             <br />
-            <label className="pb-3 pt-4">Email: </label>
+            <label className="pb-3">Email: </label>
             <input
               placeholder="email"
               value={email}
               className="container w-[500px] h-[50px] bg-slate-100 rounded-md p-4"
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
             <br />
             <label className="pb-3">Password: </label>
@@ -98,24 +109,22 @@ export default function Login() {
                 {showPassword ? "Hide" : "Show"}
               </span>
             </div>
-            <br />
             {error && <span className="text-red-500 pb-2">{error}</span>}
-
             <button
-              className="w-[500px] h-[50px] bg-[#e73939] hover:bg-[#9a0101] rounded-md text-white text-lg"
+              className="mt-8 w-[500px] h-[50px] bg-[#e73939] hover:bg-[#9a0101] rounded-md text-white text-lg"
               type="submit"
             >
-              Login
+              Register
             </button>
-            <div className="border-b-2 pt-5"></div>
-            <GoogleLogin buttonText="Login with Google" />
-            <div className="flex flex-row items-center justify-center pt-4">
-              <h1>Don't have an account yet?</h1>
-              <Link to="/register" className="pl-1 font-bold">
-                Register Here
-              </Link>
-            </div>
           </form>
+          <div className="border-b-2 pt-5"></div>
+          <GoogleLogin buttonText="Sign Up with Google" />
+          <div className="flex flex-row items-center justify-center pt-4">
+            <h1>Already have an account?</h1>
+            <Link to="/login" className="pl-1 font-bold">
+              Login here
+            </Link>
+          </div>
         </div>
       </div>
     </div>

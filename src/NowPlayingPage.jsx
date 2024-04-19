@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -9,8 +9,12 @@ function NowPlayingPage() {
   const API_KEY = "de1e0b98496c6434dd3e14f9554f5287";
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+  const searchTermFromURL = new URLSearchParams(location.search).get("query");
+  const [searchTerm, setSearchTerm] = useState(searchTermFromURL || "");
+  const [nowPlayingHoveredMovieId, setNowPlayingHoveredMovieId] =
+  useState(null);
 
   useEffect(() => {
     const fetchNowPlayingMovies = async () => {
@@ -25,9 +29,39 @@ function NowPlayingPage() {
       }
     };
 
-    // Fetch now playing movies when currentPage changes
     fetchNowPlayingMovies();
-  }, [currentPage]); // Depend on currentPage
+  }, [currentPage]); 
+
+  useEffect(() => {
+    // Check if user is authenticated, if not, redirect to login page
+    if (!localStorage.getItem("token")) {
+      navigate("/register");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "https://shy-cloud-3319.fly.dev/api/v1/auth/me",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const userData = response.data;
+        console.log("User profle: ", userData);
+        setUserData(userData);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+        } else {
+        }
+      }
+    }
+    fetchData();
+  }, []);
+
 
   const handlePaginationClick = (page) => {
     setCurrentPage(page);
@@ -35,19 +69,13 @@ function NowPlayingPage() {
 
   return (
     <div className="items-center justify-center self-center">
-      {/* navbar */}
-      <Navbar />
-
-      {/* section results */}
+      <Navbar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            user={userData}
+          />
       <div className="section bg-[#0E1118] pl-12 pt-12">
-        <div className="flex flex-row justify-between">
-          <div className="flex justify-center items-center">
-            <h1 className="pt-2 sm:pt-9 text-[12px] sm:text-[32px] font-bold text-white">
-              Now Playing Movies
-            </h1>
-          </div>
-        </div>
-        {nowPlayingMovies.length > 0 ? ( // Check if nowPlayingMovies array is not empty
+        {nowPlayingMovies.length > 0 ? (
           <div className="flex flex-wrap gap-8 pt-5">
             {nowPlayingMovies.map((movie) => (
               <div
@@ -56,7 +84,42 @@ function NowPlayingPage() {
                   navigate("/movie-details", { state: { id: movie.id } });
                 }}
                 className="relative max-w-xs bg-slate-900 rounded-lg shadow hover:bg-gray-800 transition duration-300 hover:filter hover:scale-105 cursor-pointer mr-4 mb-4"
+                onMouseEnter={() =>
+                  setNowPlayingHoveredMovieId(movie.id)
+                }
+                onMouseLeave={() => setNowPlayingHoveredMovieId(null)}
               >
+                {nowPlayingHoveredMovieId === movie.id && (
+                        <div className="absolute bottom-0 left-0 right-0 flex items-end justify-start bg-gradient-to-t from-red-600 to-transparent text-white p-5 h-[320px] w-auto text-wrap rounded-md flex-start ">
+                          <div className="flex flex-col">
+                            <h3 className="text-[20px] font-bold pb-2">
+                              {movie.title}
+                            </h3>
+                            <div className="flex flex-row items-center gap-2 text-[14px]">
+                              <div>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="white"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="w-5 h-5"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+                                  />
+                                </svg>
+                              </div>
+                              <div className="pt-1">
+                                {movie?.vote_average?.toFixed(1)} / 10 |{" "}
+                                {movie.release_date}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                 {/* Display movie poster */}
                 {movie.poster_path ? (
                   <img
@@ -112,23 +175,19 @@ function NowPlayingPage() {
 }
 
 const Pagination = ({ currentPage, totalPages, onPageClick }) => {
-  // Calculate the start and end pages to display
-  let startPage = Math.max(1, currentPage - 2); // Display 2 pages before the current page
-  let endPage = Math.min(totalPages, startPage + 4); // Display 5 pages in total
+  let startPage = Math.max(1, currentPage - 2);
+  let endPage = Math.min(totalPages, startPage + 4);
 
-  // Adjust startPage and endPage to display exactly 5 pages
   if (endPage - startPage + 1 < 5) {
     startPage = Math.max(1, endPage - 4);
   }
 
-  // Generate an array of page numbers to display
   const pages = [...Array(endPage - startPage + 1)].map(
     (_, index) => startPage + index
   );
 
   return (
     <ul className="flex gap-2 mb-">
-      {/* Previous button */}
       <li
         className={`cursor-pointer px-3 py-1 ${
           currentPage === 1 ? "bg-gray-700 text-white" : "bg-white text-black"
@@ -137,7 +196,6 @@ const Pagination = ({ currentPage, totalPages, onPageClick }) => {
       >
         Previous
       </li>
-      {/* Page buttons */}
       {pages.map((page) => (
         <li
           key={page}
@@ -151,7 +209,6 @@ const Pagination = ({ currentPage, totalPages, onPageClick }) => {
           {page}
         </li>
       ))}
-      {/* Next button */}
       <li
         className={`cursor-pointer px-3 py-1 ${
           currentPage === totalPages
@@ -165,4 +222,5 @@ const Pagination = ({ currentPage, totalPages, onPageClick }) => {
     </ul>
   );
 };
+
 export default NowPlayingPage;

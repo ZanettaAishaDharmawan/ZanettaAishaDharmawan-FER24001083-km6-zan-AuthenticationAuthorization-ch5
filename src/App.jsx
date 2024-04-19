@@ -8,7 +8,8 @@ import MovieDetail from "./MovieDetails";
 import NowPlayingPage from "./NowPlayingPage";
 import PopularPage from "./PopularPage";
 import TopRatedPage from "./TopRatedPage";
-import LoginForm from "./Login";
+import Login from "./Login";
+import Register from "./Register";
 import ResponsePage from "./ResponsePage";
 import UserDetail from "./UserDetail";
 import Users from "./Users";
@@ -16,6 +17,8 @@ import "./App.css";
 import PostsUser from "./Posts";
 import Quotes from "./Quotes";
 import RandomQuotes from "./RandomQuotes"
+import ProfileUser from "./ProfileUser";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export default function App() {
   const router = createBrowserRouter([
@@ -25,7 +28,7 @@ export default function App() {
     },
     {
       path: "/top-rated",
-      element: <PostsUser />,
+      element: <TopRatedPage />,
     },
     {
       path: "/search-results",
@@ -40,16 +43,16 @@ export default function App() {
       element: <NowPlayingPage />,
     },
     {
-      path: "/quotes",
-      element: <Quotes />,
-    },
-    {
-      path: "/random",
-      element: <RandomQuotes />,
+      path: "/popular",
+      element: <PopularPage />,
     },
     {
       path: "/login",
-      element: <LoginForm />,
+      element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
     },
     {
       path: "/response",
@@ -60,6 +63,10 @@ export default function App() {
       element: <Users />,
     },
     {
+      path: "/profile",
+      element: <ProfileUser />,
+    },
+    {
       path: "/users/:id", // Define a dynamic segment for the user ID
       element: <UserDetail />, // Render the UserDetail component
     },
@@ -67,5 +74,10 @@ export default function App() {
   //         <div className="relative pt-24 px-24 left-0  bg-black bg-opacity-0  text-white gap-5"></div>
 
 
-  return <RouterProvider router={router} />;
+  return <GoogleOAuthProvider clientId="273002041171-6eji9p3ehf78mnopt309nv4750h32t0j.apps.googleusercontent.com">
+  <RouterProvider router={router} />
+</GoogleOAuthProvider>
+
+;
+
 }

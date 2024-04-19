@@ -15,6 +15,7 @@ export default function MovieDetail() {
   const [searchTerm, setSearchTerm] = useState(searchTermFromURL || "");
   const [reviews, setReviews] = useState([]);
   const [videos, setVideos] = useState([]);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchMovieDetail = async () => {
@@ -59,10 +60,42 @@ export default function MovieDetail() {
   //   console.log("location ", location);
   //   detailMovies();
   // }, []);
+  useEffect(() => {
+    // Check if user is authenticated, if not, redirect to login page
+    if (!localStorage.getItem("token")) {
+      navigate("/register");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "https://shy-cloud-3319.fly.dev/api/v1/auth/me",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const userData = response.data;
+        console.log("User profle: ", userData);
+        setUserData(userData);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+        } else {
+        }
+      }
+    }
+    fetchData();
+  }, []);
   return (
     <div className="">
-      <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
+<Navbar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            user={userData}
+          />
       <div className="bg-no-repeat bg-white-auto justify-around w-full">
         <div className="text-white relative" key={detail?.id}>
           <img
